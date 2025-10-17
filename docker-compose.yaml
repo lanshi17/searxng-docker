@@ -31,6 +31,9 @@ services:
     volumes:
       - ./searxng:/etc/searxng:rw
       - ./favicon.ico:/usr/local/searxng/searx/static/favicon.ico:ro
+      - ./custom_engines:/usr/share/searxng/engines
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
     environment:
       SEARXNG_BASE_URL: https://${SEARXNG_HOSTNAME}/
       UWSGI_WORKERS: ${SEARXNG_UWSGI_WORKERS:-4}
@@ -51,6 +54,13 @@ services:
       options:
         max-size: 1m
         max-file: "1"
+    command: ["/bin/sh", "-c", "apt-get update && apt-get install -y ca-certificates"]
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
+    # 可选：添加以下字段避免 DNS 污染
+    extra_hosts:
+      - "www.google.com:31.13.88.169"
 networks:
   searxng: 
 volumes:

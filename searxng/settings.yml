@@ -521,21 +521,21 @@ engines:
     categories: [general]
     engine: baidu
     shortcut: bd
-    disabled: true
+    disabled: false
 
   - name: baidu images
     baidu_category: images
     categories: [images]
     engine: baidu
     shortcut: bdi
-    disabled: true
+    disabled: false
 
   - name: baidu kaifa
     baidu_category: it
     categories: [it]
     engine: baidu
     shortcut: bdk
-    disabled: true
+    disabled: false
 
   - name: wikipedia
     engine: wikipedia
@@ -552,7 +552,7 @@ engines:
   - name: bing
     engine: bing
     shortcut: bi
-    disabled: true
+    disabled: false
 
   - name: bing images
     engine: bing_images
@@ -823,6 +823,7 @@ engines:
   - name: duckduckgo
     engine: duckduckgo
     shortcut: ddg
+    disabled: true
 
   - name: duckduckgo images
     engine: duckduckgo_extra
@@ -1028,7 +1029,14 @@ engines:
 
   - name: google
     engine: google
-    shortcut: go
+    shortcut: g
+    disabled: false 
+    base_url: https://www.google.com
+    timeout: 15.0
+    verify_ssl: true
+    headers:
+       User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36
+    disable_redirects: true
     # additional_tests:
     #   android: *test_android
 
@@ -1098,6 +1106,7 @@ engines:
       use_official_api: false
       require_api_key: false
       results: HTML
+      language: all
 
   - name: hackernews
     engine: hackernews
@@ -2326,20 +2335,14 @@ engines:
     search_type: files
     number_of_results: 10
 
-  - name: wolframalpha
-    shortcut: wa
-    # You can use the engine using the official stable API, but you need an API
-    # key.  See: https://products.wolframalpha.com/api/
-    #
-    # engine: wolframalpha_api
-    # api_key: ''
-    #
-    # Or you can use the html non-stable engine, activated by default
+  - name: WolframAlpha
     engine: wolframalpha_noapi
+    shortcut: wa
+    base_url: https://api.wolframalpha.com/v1/result
+    apikey: 8G42GHP55Q
     timeout: 6.0
-    categories: general
-    disabled: true
-
+    verify_ssl: true
+  
   - name: dictzone
     engine: dictzone
     shortcut: dc
@@ -2348,6 +2351,7 @@ engines:
     engine: translated
     shortcut: tl
     timeout: 5.0
+    disalbed: true
     # You can use without an API key, but you are limited to 1000 words/day
     # See: https://mymemory.translated.net/doc/usagelimits.php
     # api_key: ''
@@ -2501,16 +2505,16 @@ engines:
     search_mode: 'global'
     # timeout can be reduced in 'local' search mode
     timeout: 5.0
-
+  
   - name: yacy images
     engine: yacy
     network: yacy
     categories: images
     search_type: image
     shortcut: yai
-    disabled: true
-    # timeout can be reduced in 'local' search mode
+    disabled: false
     timeout: 5.0
+    base_url: https://yacy.search.yacy.de/images/
 
   - name: rumble
     engine: rumble
@@ -2643,6 +2647,7 @@ engines:
     paging: true
     categories: [general, web]
     brave_category: search
+    disabled: true
     # brave_spellcheck: true
 
   - name: brave.images
