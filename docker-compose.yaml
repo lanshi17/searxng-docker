@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 services:
   caddy:
     container_name: caddy
@@ -20,12 +21,20 @@ services:
   redis:
     container_name: redis
     image: docker.io/valkey/valkey:8-alpine
+=======
+---
+services:
+  redis:
+    container_name: redis
+    image: valkey/valkey:8-alpine
+>>>>>>> f02d8e3 (Add backup settings file and create start script for Docker management)
     command: valkey-server --save 30 1 --loglevel warning
     restart: unless-stopped
     networks:
       - searxng
     volumes:
       - valkey-data2:/data
+<<<<<<< HEAD
     logging:
       driver: "json-file"
       options:
@@ -35,10 +44,27 @@ services:
   searxng:
     container_name: searxng
     image: docker.io/searxng/searxng:latest
+=======
+    cap_drop:
+      - ALL
+    cap_add:
+      - SETGID
+      - SETUID
+      - DAC_OVERRIDE
+    logging:
+      driver: json-file
+      options:
+        max-size: 1m
+        max-file: "1"
+  searxng:
+    container_name: searxng
+    image: searxng/searxng:latest
+>>>>>>> f02d8e3 (Add backup settings file and create start script for Docker management)
     restart: unless-stopped
     networks:
       - searxng
     ports:
+<<<<<<< HEAD
       - "127.0.0.1:8080:8080"
     volumes:
       - ./searxng:/etc/searxng:rw
@@ -59,3 +85,34 @@ volumes:
   caddy-config:
   valkey-data2:
   searxng-data:
+=======
+      - 8080:8080
+    volumes:
+      - ./searxng:/etc/searxng:rw
+      - ./favicon.ico:/usr/local/searxng/searx/static/favicon.ico:ro
+    environment:
+      SEARXNG_BASE_URL: https://${SEARXNG_HOSTNAME}/
+      UWSGI_WORKERS: ${SEARXNG_UWSGI_WORKERS:-4}
+      UWSGI_THREADS: ${SEARXNG_UWSGI_THREADS:-4}
+      SEARXNG_SETTINGS: |
+        search:
+          formats:
+            - html
+            - json
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - SETGID
+      - SETUID
+    logging:
+      driver: json-file
+      options:
+        max-size: 1m
+        max-file: "1"
+networks:
+  searxng: 
+volumes:
+  valkey-data2: 
+
+>>>>>>> f02d8e3 (Add backup settings file and create start script for Docker management)
